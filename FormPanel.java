@@ -22,25 +22,26 @@ public class FormPanel extends JPanel {
 	private JLabel occupationLabel;
 	private JButton okBtn;
 	private FormListener listener;
-	private JList<String> ageList;
+	private JList<AgeCategory> ageList;
 
 	public FormPanel() {
 		Dimension dim = this.getPreferredSize();
 		dim.width = 300;
+		this.setPreferredSize(dim);
 
 		nameField = new JTextField(10);
 		occupationField = new JTextField(10);
 		nameLabel = new JLabel("Name: ");
 		occupationLabel = new JLabel("Occupation: ");
 		okBtn = new JButton("Ok");
-		ageList = new JList<String>();
+		ageList = new JList<AgeCategory>();
 
 		ageList.setPreferredSize(new Dimension(127, 65));
 
-		DefaultListModel<String> ageModel = new DefaultListModel<String>();
-		ageModel.addElement("Over 18");
-		ageModel.addElement("18 to 65");
-		ageModel.addElement("65 or over");
+		DefaultListModel<AgeCategory> ageModel = new DefaultListModel<AgeCategory>();
+		ageModel.addElement(new AgeCategory(0, "Over 18"));
+		ageModel.addElement(new AgeCategory(1, "18 to 65"));
+		ageModel.addElement(new AgeCategory(2, "65 or over"));
 
 		ageList.setModel(ageModel);
 		ageList.setBorder(BorderFactory.createEtchedBorder());
@@ -50,7 +51,9 @@ public class FormPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String name = nameField.getText();
 				String occupation = occupationField.getText();
-				String ageCat = (String) ageList.getSelectedValue();
+				AgeCategory ageCat = ageList.getSelectedValue();
+
+				System.out.println(ageCat.getID());
 
 				FormEvent event = new FormEvent(this, name, occupation);
 				if (listener != null) {
@@ -59,7 +62,6 @@ public class FormPanel extends JPanel {
 			}
 		});
 
-		this.setPreferredSize(dim);
 		Border innerBorder = BorderFactory.createTitledBorder("Add Person:");
 		Border outterBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 		this.setBorder(BorderFactory.createCompoundBorder(outterBorder, innerBorder));
@@ -123,4 +125,22 @@ public class FormPanel extends JPanel {
 		this.listener = listener;
 	}
 
+}
+
+class AgeCategory {
+	private int id;
+	private String text;
+
+	public AgeCategory(int id, String text) {
+		this.id = id;
+		this.text = text;
+	}
+
+	public String toString() {
+		return text;
+	}
+
+	public int getID() {
+		return id;
+	}
 }
