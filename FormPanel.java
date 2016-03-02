@@ -2,6 +2,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,6 +19,7 @@ public class FormPanel extends JPanel {
 	private JLabel nameLabel;
 	private JLabel occupationLabel;
 	private JButton okBtn;
+	private FormListener listener;
 
 	public FormPanel() {
 		Dimension dim = this.getPreferredSize();
@@ -27,6 +30,18 @@ public class FormPanel extends JPanel {
 		nameLabel = new JLabel("Name: ");
 		occupationLabel = new JLabel("Occupation: ");
 		okBtn = new JButton("Ok");
+
+		okBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = nameField.getText();
+				String occupation = occupationField.getText();
+
+				FormEvent event = new FormEvent(this, name, occupation);
+				if (listener != null) {
+					listener.formEventFired(event);
+				}
+			}
+		});
 
 		this.setPreferredSize(dim);
 		Border innerBorder = BorderFactory.createTitledBorder("Add Person:");
@@ -77,6 +92,10 @@ public class FormPanel extends JPanel {
 		gc.insets = new Insets(0, 0, 0, 0);
 		gc.anchor = GridBagConstraints.FIRST_LINE_START;
 		this.add(okBtn, gc);
+	}
+
+	public void setFormListener(FormListener listener) {
+		this.listener = listener;
 	}
 
 }
