@@ -44,11 +44,13 @@ public class FormPanel extends JPanel {
 
 		ageList.setModel(ageModel);
 		ageList.setBorder(BorderFactory.createEtchedBorder());
+		ageList.setSelectedIndex(0);
 
 		okBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = nameField.getText();
 				String occupation = occupationField.getText();
+				String ageCat = (String) ageList.getSelectedValue();
 
 				FormEvent event = new FormEvent(this, name, occupation);
 				if (listener != null) {
