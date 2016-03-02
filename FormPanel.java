@@ -6,8 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -20,6 +22,7 @@ public class FormPanel extends JPanel {
 	private JLabel occupationLabel;
 	private JButton okBtn;
 	private FormListener listener;
+	private JList<String> ageList;
 
 	public FormPanel() {
 		Dimension dim = this.getPreferredSize();
@@ -30,6 +33,17 @@ public class FormPanel extends JPanel {
 		nameLabel = new JLabel("Name: ");
 		occupationLabel = new JLabel("Occupation: ");
 		okBtn = new JButton("Ok");
+		ageList = new JList<String>();
+
+		ageList.setPreferredSize(new Dimension(127, 65));
+
+		DefaultListModel<String> ageModel = new DefaultListModel<String>();
+		ageModel.addElement("Over 18");
+		ageModel.addElement("18 to 65");
+		ageModel.addElement("65 or over");
+
+		ageList.setModel(ageModel);
+		ageList.setBorder(BorderFactory.createEtchedBorder());
 
 		okBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -86,9 +100,18 @@ public class FormPanel extends JPanel {
 
 		///////////// Third Row ////////////////////////////////
 		gc.weightx = 1;
-		gc.weighty = 2.0;
+		gc.weighty = 0.1;
 		gc.gridx = 1;
 		gc.gridy = 2;
+		gc.insets = new Insets(0, 0, 0, 0);
+		gc.anchor = GridBagConstraints.FIRST_LINE_START;
+		this.add(ageList, gc);
+
+		///////////// Fourth Row ////////////////////////////////
+		gc.weightx = 1;
+		gc.weighty = 2.0;
+		gc.gridx = 1;
+		gc.gridy = 3;
 		gc.insets = new Insets(0, 0, 0, 0);
 		gc.anchor = GridBagConstraints.FIRST_LINE_START;
 		this.add(okBtn, gc);
